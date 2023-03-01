@@ -18,7 +18,7 @@ const getById = async (id) => {
   return book || null
 }
 
-const add = async (title, author) => {
+const add = async ({ title, author }) => {
   const books = await getAll()
   const newBook = {
     id: uuidv4(),

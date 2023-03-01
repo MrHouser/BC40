@@ -19,8 +19,14 @@ app.use((req, res, next) => {
   next()
 })
 
+app.get("/api/books/:id", (req, res) => {
+  const { id } = req.params
+  const book = books.find((b) => b.id === id)
+  res.json(book)
+})
+
 // Endpoint, у нашому випадку /books - завжди іменник в множині
-app.get("/books", (req, res) => {
+app.get("/api/books", (req, res) => {
   // res.send("<h2>Books page</h2>") - res.send зазвичай використовуємо для відправки HTML
   res.json(books) // Для відправки даних - використовуємо res.json()
   // res.json(null) - res.json(null) поверне у відповіді null, res.send(null) - нічого
