@@ -1,7 +1,10 @@
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 const { RequestError } = require("../helpers")
 const User = require("../models/user")
+
+const { TOKEN_KEY } = process.env
 
 const register = async (req, res, next) => {
   const { email, name, password } = req.body
@@ -27,13 +30,26 @@ const login = async (req, res, next) => {
   if (!isPasswordValid) {
     throw RequestError(401, "Invalid password")
   }
-  const token = "qrqwtfq.fdqfqwf.14fdqawsfq"
+  const payload = {
+    id: existingUser._id,
+  }
+  const token = jwt.sign(payload, TOKEN_KEY, { expiresIn: "1h" })
+  await User.findByIdAndUpdate(existingUser._id, { token })
   res.json({
     token,
+  })
+}
+
+const logout = async (req, res, next) => {
+  const { _id } = req.user
+  await User.findByIdAndUpdate(_id, { token: "" })
+  res.json({
+    message: "Logout successful",
   })
 }
 
 module.exports = {
   register,
   login,
+  logout,
 }
