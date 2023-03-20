@@ -7,5 +7,20 @@
   <title>Document</title>
 </head>
 <body>
+  <form id="form-add-product" action="" enctype="multipart/form-data">
+    <input type="file" name="fileInput" multiple>
+    <input type="text" name="textInput" placeholder="Product name">
+    <button>Send</button>
+  </form>
+  <script>
+    const formAddProduct = document.getElementById('form-add-product')
+    formAddProduct.addEventListener('submit', function(e){
+      e.preventDefault()
+      
+      const data = new FormData()
+      data.append('file', this.elements.fileInput.files[0])
+      data.append('name', this.elements.textInput.value)
+    })
+  </script>
 </body>
 </html>

@@ -13,6 +13,7 @@ const register = async (req, res, next) => {
     throw RequestError(409, `User with email: ${email} already exists`)
   }
   const hashedPassword = await bcrypt.hash(password, 10)
+
   const user = await User.create({ name, email, password: hashedPassword })
   res.status(201).json({
     name: user.name,
@@ -48,8 +49,25 @@ const logout = async (req, res, next) => {
   })
 }
 
+const avatars = async (req, res, next) => {
+  try {
+    const { _id } = req.user
+    const { path: tempDir, originalname } = req.file
+    const [extention] = originalname.split(".").reverse()
+    const newFileName = `${id}.${extention}`
+    const avatarURL = path.join("avatars", newFileName)
+    await User.findByIdAndUpdate(_id, { avatarURL })
+    res.json({ avatarURL })
+    //123123-123312-12312.png
+  } catch (error) {
+    await fs.unlink(req.file.path)
+    next(error)
+  }
+}
+
 module.exports = {
   register,
   login,
   logout,
+  avatars,
 }

@@ -2,8 +2,9 @@ const express = require("express")
 
 const booksController = require("../../controllers/booksController")
 const { ctrlWrapper } = require("../../helpers")
-const { validateBody, auth } = require("../../middlewares")
+const { validateBody, auth, checkRole } = require("../../middlewares")
 const { addSchema, updateFavoriteSchema } = require("../../schemas/books")
+const roles = require("../../constants/roles")
 
 const router = express.Router()
 
@@ -30,6 +31,11 @@ router.patch(
   ctrlWrapper(booksController.updateFavoriteById)
 )
 
-router.delete("/:id", ctrlWrapper(booksController.deleteById))
+router.delete(
+  "/:id",
+  auth,
+  checkRole(roles.admin),
+  ctrlWrapper(booksController.deleteById)
+)
 
 module.exports = router

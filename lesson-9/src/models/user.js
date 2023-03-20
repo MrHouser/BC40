@@ -21,6 +21,10 @@ const userSchema = Schema(
       type: String,
       default: "",
     },
+    role: {
+      type: String,
+      default: "user",
+    },
   },
   { versionKey: false, timestamps: true }
 )

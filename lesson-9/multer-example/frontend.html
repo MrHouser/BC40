@@ -15,9 +15,10 @@
         const productsRequest = axios.get(`${baseURL}/api/products`);
         productsRequest
             .then(({data})=> {
-                const productElements = data.map(item => `<div>
+                const productElements = data.map(item =>`<div>
                     <h4>${item.name}</h4>
                     <img src="${baseURL}/${item.image}" /></div>`).join();
+                    
                 productsContainer.insertAdjacentHTML("beforeend", productElements)
             })
             .catch(error => console.log(error.message));
