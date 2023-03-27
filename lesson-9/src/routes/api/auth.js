@@ -1,7 +1,7 @@
 const express = require("express")
 const { ctrlWrapper } = require("../../helpers")
 const authController = require("../../controllers/authController")
-const { validateBody, auth, upload } = require("../../middlewares")
+const { validateBody, auth } = require("../../middlewares")
 const { registerSchema, loginSchema } = require("../../schemas/auth")
 
 const router = express.Router()
