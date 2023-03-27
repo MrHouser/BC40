@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose")
 
+//додати необхідні поля з опису ДЗ
 const userSchema = Schema(
   {
     name: {

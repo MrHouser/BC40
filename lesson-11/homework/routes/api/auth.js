@@ -20,6 +20,10 @@ router.post(
 
 router.get("/logout", auth, ctrlWrapper(authController.logout))
 
+// створити GET-ендпоінт /users/verify/:verificationToken
+
+// створити POST-ендпоінт для повторної відправки листа на імейл для верифікації - POST /users/verify
+
 // router.patch(
 //   "/avatars",
 //   auth,

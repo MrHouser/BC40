@@ -13,8 +13,18 @@ const register = async (req, res, next) => {
     throw RequestError(409, `User with email: ${email} already exists`)
   }
   const hashedPassword = await bcrypt.hash(password, 10)
-
+  // створити токен верифікації verificationToken і зберегти його в базі
   const user = await User.create({ name, email, password: hashedPassword })
+  // створити і відправити імейл
+  /*
+  const mail = {
+    to: email,
+    subject: 'Verify your email',
+    html: `<a target='_blank' href='http://localhost:3000/api/auth//${verificationToken}'>Verify</a>`
+  }
+
+  sendEmail(mail)
+  */
   res.status(201).json({
     name: user.name,
     email: user.email,
@@ -31,6 +41,7 @@ const login = async (req, res, next) => {
   if (!isPasswordValid) {
     throw RequestError(401, "Invalid password")
   }
+  //додати перевірку що користувач верифікований - !existingUser.verify
   const payload = {
     id: existingUser._id,
   }
@@ -64,6 +75,22 @@ const avatars = async (req, res, next) => {
     next(error)
   }
 }
+
+//створити контроллер для GET ендпоінту
+/*
+1. знайти користувача по токену з запиту 
+2. якщо його немає прокинути помилку 
+3. якщо він є - встановити verify - true, verificationToken = ''
+4. відправити респонс
+*/
+
+//створити контроллер для POST ендпоінту для повторної відправки імейлу
+/*
+1. знайти користувача по імейлу
+2. якщо немає користувача - прокинути помилку
+3. якщо вже верифікований користувач - прокинути помилку
+4. відправити листа з токеном з БД - user.verificationToken
+*/
 
 module.exports = {
   register,

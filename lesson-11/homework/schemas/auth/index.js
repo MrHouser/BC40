@@ -15,6 +15,8 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 })
 
+//створити нову схему для повторної відправки листа
+
 module.exports = {
   registerSchema,
   loginSchema,
